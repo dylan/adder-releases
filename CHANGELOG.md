@@ -1,0 +1,1087 @@
+# Changelog
+
+Updates to the Adder language, Lab and Guide.
+
+## Language v0.22.6 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Fixed
+
+- **Work result branches**: `work` can return a record from either `if` branch, including branches with local values, without a compiler crash.
+
+## Language v0.22.5 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Improved
+
+- **Smaller work programs**: Constant list initializers in `work` can use less program space and more cycles. Tight frame budgets keep the faster form.
+
+## Language v0.22.4 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Fixed
+
+- **Stepped work loops**: Work with sequential bounded loops now avoids a false frame-limit error when its parts fit.
+
+## Language v0.22.3 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Fixed
+
+- **Character constructors**: `Char("A")` keeps its character type in comparisons, function calls and lists.
+
+## Language v0.22.2 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Fixed
+
+- **Nested list fills**: Nested list fields such as `(cells: [1, 2])` compile correctly, filling each row with its written value.
+
+## Language v0.22.1 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Fixed
+
+- **Shared assembly deadlines**: Completion checks correctly price verified, bounded shared assembly calls with `cycles(...)` declarations.
+
+## Language v0.22.0 · Lab & Guide v0.20.0 (2026-10-29)
+
+### Added
+
+- **Loop over a string**: `for c in line` visits each character of a line, and `for i in 0..<line.length` each position, including `0..<lines[k].length`. `for x in xs` walks a list that grows. A scan costs about 18 cycles a character.
+
+### Changed
+
+- **Functions read lines where they sit**: Passing `lines[row]`, a row like `doc[k]`, or an argument to a struct method no longer copies it first. `second_is_b(lines[row])` runs within 6 cycles of hand-written 6502.
+- **Faster list helpers on lines**: `map`, `reduce`, `find` and `filter` read each line where it sits. `map` over six 38-character lines takes about a fifth of the time it did.
+- **`filter` fills its result directly**: `kept = lines |> filter(f)` writes into `kept` with no temporary copy, so filtering a 20-line page fits in a frame, within 5 cycles of hand-written 6502.
+- **Reading one line of a page**: `lines[row].length` takes 75 cycles where it took 706.
+- **Faster frames**: Tighter code for tests and calls cuts the worst frame of Sensor Desk by 509 cycles, Snake Duel by 469 and Undercrypt by 371.
+
+### Fixed
+
+- **Filtering long lines**: `filter` keeps every character in strings with a capacity of 255 or more. A failed callback leaves the previous result intact.
+
+## Language v0.21.0 · Lab & Guide v0.19.0 (2026-10-28)
+
+### Breaking
+
+- **Slicing a string**: Write `name[0..<5]` instead of `name.slice(start: 0, end: 5)`, the same way you slice a list. A binding of a slice follows the string, and a `var` copies it.
+- **Emptying a slot**: On a list of optionals, write `windows[2] = nil` instead of `windows.remove(at: 2)`. `remove` now always closes the gap.
+
+### Added
+
+- **Insert and remove in a string**: `line.insert("x", at: 3)` and `line.remove(at: 3)` change a string where it lies. A full string refuses an insert and stays as it was.
+- **Lists that grow**: `[up to 20 of String<38>]` holds up to 20 lines, with `append`, `insert(item, at:)`, `remove(at:)`, `clear()` and `length`.
+- **Helpers on lists that grow**: `map`, `filter`, `find`, `reduce` and the other list helpers work on the items the list holds, and `filter` leaves no gaps.
+- **Slices and comparison**: `lines[2..<5]` slices a list that grows, and `a == b` and `when lines.changed` look at the items a list holds, not the spare places behind them.
+- **Any capacity**: A parameter written `xs: [up to n of String<38>]` takes a list that grows of any capacity.
+- **Saving lists that grow**: `save` and `load` keep a list's length. Loading a file with more items than the list holds fails with `.device_error(code: 74)` and leaves the list as it was.
+
+### Fixed
+
+- **Inserting named values**: List inserts keep the item and position they first read, including values named through bindings to the list's own items.
+- **Emptied places**: In a list of optional numbers or records, `==` and `when xs.changed` now treat every `nil` alike. Emptying a place that was already empty no longer counts as a change, whatever it held in between.
+
+## Language v0.20.0 · Lab & Guide v0.18.0 (2026-10-28)
+
+### Breaking
+
+- **Placed text has a new spelling**: Write `System.screen.content <- Text("SCORE").at(row: 0, col: 2)` instead of `System.screen.text <- Text(row: 0, col: 2, content: "SCORE")`. Add `.width(16)`, `.height(3)` or `.wrapped(.word)` for a box. `System.screen.text` is now only the grid of character cells.
+- **Text parts join with `++`**: Write `Text("SCORE ") ++ Text(score.digits(4)).ink(.yellow)` instead of a list of parts with `color:`. Text color is now always spelled `ink`.
+- **Justified text**: Write `.aligned(.justified)` instead of `.justified()`.
+- **Cursors**: The typed line's cursor is `.cursor(.flashing)`, and its type is `CursorStyle`, which also has `.hidden`.
+- **Fonts**: `Charset` is now `Font`, as in `Font.lowercase`.
+- **Lettering**: Letter a canvas with `Text("SCORE").font(face).place(x: 16, y: 8)`.
+
+### Changed
+
+- **Help while you type**: After `Text(...)`, completion offers its placement words, and a missing `.at` gets a fix that keeps your text.
+
+## Language v0.19.0 · Lab & Guide v0.17.1 (2026-10-28)
+
+### Breaking
+
+- **Comparing two lists gives one answer**: `a == b` on two lists is now `true` only when every place matches, and `!=` is its opposite. For a true or false per place, write `zip_with(a, b, fn(x, y) -> x == y)`. Comparing a list with one value, as in `xs == 0`, still checks each place.
+
+### Changed
+
+- **Smaller programs**: Long copies and comparisons now use a short loop instead of one instruction per byte. A line marked `fast`, or a frame that needs the speed, still spells them out. In our benchmark, one program shrank from 7,641 to 5,097 bytes.
+- **Faster check for a changed page**: Noticing that a loaded page of 20 lines has changed takes about half the time it did. In our benchmark it dropped from 32,295 to 15,669 cycles.
+- **Faster row reads**: Reading an 80-byte row picked by a changing index takes 1,191 cycles instead of 1,643, and much less code.
+
+### Fixed
+
+- **Long lists of Strings**: A program that watches a list of 256 or more Strings builds again.
+- **Optional Strings compare by their text**: `==` on optional Strings no longer looks at leftover characters past the end.
+- **Clearer messages**: Error messages name types the way you wrote them.
+
+## Language v0.18.8 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Fixed
+
+- **Strings from a list at a changing index**: Passing `lines[k]` to a function, reading one of its characters, or appending it now gives that line's own text. Before, lines with some lengths, such as `String<6>`, could show the first line's characters instead.
+
+## Language v0.18.7 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Changed
+
+- **Faster signed division**: Dividing signed numbers by constant powers of two uses less code and work while keeping rounding toward zero.
+
+## Language v0.18.6 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Fixed
+
+- **Direct REU checks**: Use `reu.verify(...)` directly in `if` conditions, including combined Boolean tests.
+- **Safe condition checks**: Changing an index in a condition keeps later list accesses checked against its current value.
+
+## Language v0.18.5 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Fixed
+
+- **Safer drawing over frames**: Drawing jobs check their pause storage and leave time for pausing, resuming and sprite activity. Some drawings may take longer to finish, and jobs that cannot fit are caught when you compile.
+
+## Language v0.18.4 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Fixed
+
+- **Reliable canvas jobs**: Canvas jobs compile reliably when their work is split across frames.
+- **Optional list updates**: Updating optional records in a list keeps their signed fields intact, including across work turns.
+
+## Language v0.18.3 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Fixed
+
+- **Optional values in work**: Unwrap optional values inside work loops with `if item = value`, including nested loops and separate bindings with the same name.
+- **Filled lists in work**: Work bodies can initialize a list from one value, including records and optional elements, without a compiler crash.
+
+## Language v0.18.2 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Fixed
+
+- **Canvas jobs**: Canvas programs can keep a work job in a variable and step it in a handler while setting the canvas color.
+
+## Language v0.18.1 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Changed
+
+- **Faster line editing**: Changing a String picked by a changing index, like `lines[row]`, now happens where it lies. In our benchmark, shortening a 38-character line takes 60 cycles instead of 5,379, and copying one takes 655 instead of 5,365.
+
+### Fixed
+
+- **Clearer `truncate` error**: A failed `truncate(length:)` now says the length can't be longer than the String's current length.
+
+## Language v0.18.0 · Lab & Guide v0.17.0 (2026-10-28)
+
+### Breaking
+
+- **Every frame is checked**: If the compiler can't work out how long a frame takes, it now stops and points to the line. Programs that load or save files still build, and the cost report explains why their timing is unknown.
+- **Slow drawing loops are caught**: A loop that draws rows while the screen is being shown is now checked turn by turn. If it would fall behind the picture, the compiler tells you by how much.
+
+### Added
+
+- **Fetch many rows at once**: `reu.fetch_rows` copies several rows from the RAM expansion into a screen or grid in one call. If any row is out of range, nothing is copied.
+- **Screen codes in the expansion**: You can store and fetch `ScreenCode` lists in the RAM expansion, just like byte lists.
+- **Fill the hidden screen directly**: When you flip between two screens, fetches into the one that isn't showing land in place, with no extra copy.
+- **Colors from the expansion**: `reu.fetch_rows` can fill the screen's colors. The new colors appear at the start of the next frame, together with that frame's text, scroll and sprites.
+- **Deadlines beside other transfers**: A `.deadline(line:)` handler can now share a program with other REU transfers, as long as they touch different memory.
+- **Long setup is fine**: Slow work in `when start` no longer counts against a `.deadline(line:)` handler.
+- **Scrolling example**: A new Lab example scrolls a large map stored in the RAM expansion with the joystick. It needs a 256 KiB expansion.
+- **Guide: building a picture**: The RAM Expansion chapter shows how to fetch rows and colors for a scrolling screen, and what each costs.
+
+### Changed
+
+- **Faster row fetches**: In our benchmark, fetching 25 rows with `fetch_rows` takes 3,401 cycles, less than half the 7,390 of 25 separate `fetch` calls.
+- **Faster single transfers**: `reu.fetch` and `reu.store` do less setup work. In our benchmark, 25 separate row fetches dropped from 13,340 to 7,390 cycles.
+- **Faster window stores**: Storing a 512-byte window from a list now takes 713 cycles instead of about 7,000.
+
+### Fixed
+
+- **Sprites keep up with scrolling**: In programs that manage their own screen, sprites and colors now change on the same frame as the scroll, so a sprite no longer jumps ahead of the background.
+- **Window copies fill every cell**: Copying between moving windows no longer skips the last few cells or writes past them.
+- **Whole-screen conversion fits**: `ScreenCode(grid)` on a full 25-by-40 grid no longer runs out of memory.
+- **Wrapping math is timed**: Frames that use `+%` or `-%` now get a checked timing like any other.
+- **Color registers read back correctly**: A variable placed on a color register now reads the same value the chip would.
+
+## Language v0.17.0 · Lab & Guide v0.16.2 (2026-10-27)
+
+### Breaking
+
+- **Plain window starts**: A slice whose start or end changes something, picks a random number or remembers earlier values is now refused. Store the start first, as in `const origin = next(mut pos)`, then use `xs[origin..<(origin + 4)]`; the error shows you how.
+
+### Changed
+
+- **Copies explained**: The cost tooltip now says when a copy keeps a `const` at its earlier value.
+
+### Fixed
+
+- **Constants keep their value**: A `const` now keeps the value it had when you made it, so `const t = a`, `a = b`, `b = t` swaps correctly. A `const` whose source never changes still costs nothing.
+- **Screens flipped inside functions**: Flipping your double-buffered screen inside a function no longer lets a later write land on the picture being shown.
+- **Fields named cells**: A struct field named `cells` now works inside a list of structs.
+- **Formatting keeps mut**: Formatting `reu.fetch(into: mut row, ...)` keeps the `mut`, so the program still compiles.
+
+## Language v0.16.0 · Lab & Guide v0.16.0 (2026-10-27)
+
+### Breaking
+
+- **Memory-preserving reset**: Emulator integrations now use `powerOn()` for fresh memory; `reset()` preserves RAM, color RAM and held inputs.
+- **Complete saved state**: Emulator snapshots now use format 5. Older formats are refused before the running machine changes.
+
+### Added
+
+- **Verified RAM assembly**: Use bounded named RAM assembly with supported frame deadlines and clocks, including typed loops and admitted local calls. The Guide explains the accepted boundary and how to resolve refusals.
+- **Reproducible emulator setup**: Choose the supported VIC and CIA models and zeroed, patterned or seeded initial RAM explicitly.
+
+### Fixed
+
+- **Selective assembly checks**: Programs without verified assembly skip its extra proof work.
+- **Reliable warm loading**: Programs still load when the browser cannot hash snapshots, and cancelled loads leave the active run alone.
+- **Paused reload input**: Reloading while paused discards queued input so old key presses do not reach the next run.
+- **SID preview startup**: Tune previews establish the banking and display state needed for their timing and interrupt checks.
+
+## Lab & Guide v0.15.0 · Language v0.15.0 (2026-10-27)
+
+### Added
+
+- **Breakpoints and logpoints**: Stop at a source line or 6502 address, or record a message and an optional byte or word while execution continues.
+- **Value watches**: Keep up to 32 signed or unsigned byte and word readings beside your paused program, and follow them into Memory.
+- **Browser debug controls**: Embedded emulator hosts can configure bounded debug points and read captured events without changing the program's bytes.
+
+### Changed
+
+- **Focused Lab workspace**: Keep Source, 6502 and C64 together, with Values, Memory, Profile and Log in a shared drawer below your work.
+- **Connected inspection**: Follow addresses and labels between instructions, memory and source without moving execution, then return to the paused instruction.
+- **Quieter controls**: Compact debugger rows, clearer screen inspection and refined emulator controls leave more room for your program.
+- **Simpler example browsing**: Choose examples by title and description without picture previews.
+
+### Fixed
+
+- **Inspection on phones**: Pause and resume from every inspection topic, with controls kept clear of phone safe areas.
+- **Debug-point editing**: Address errors identify the field to fix, and cancelling or removing a point keeps keyboard focus in the dialog.
+- **Saved project deletion**: Deleting a browser-saved project asks for confirmation before removing it.
+
+## Lab & Guide v0.14.0 · Language v0.14.0 (2026-10-26)
+
+### Added
+
+- **Pause and step**: Pause the C64 without losing its state, then advance one machine step at a time.
+- **Memory viewer**: Browse copied RAM or mapped memory, follow labels and see which bytes changed.
+- **Screen inspector**: Select the picture to inspect its current screen, color, character, bitmap and sprite data with keyboard, touch or pointer controls.
+- **Source inspector**: While paused, follow supported source locations and inspect independently stored global one-byte integers and `bool` values from the loaded build.
+- **Source profiling**: Measure a bounded execution interval and see how source, runtime, interrupt and wait cycles contribute to it.
+- **Hardware explorer**: Compare CPU-visible memory with RAM, inspect banking and capture a bounded window of selected CPU bus accesses.
+- **Picture downloads**: Save the latest C64 picture as a PNG, including its borders and display proportions.
+- **Fullscreen play**: Expand the C64 picture and controls without restarting the machine or changing your capture settings.
+- **Clipboard typing**: Paste supported text into the focused C64 using ordinary keyboard input, with progress and cancellation.
+- **Silent fast-forward**: Run silent programs faster when your device allows it. Enabling sound restores normal C64 timing first.
+- **Example previews**: See small recorded pictures in the example picker, with short motion previews when you request them.
+- **Cartridge files**: Load and restart supported Normal, Ultimax, Magic Desk and EasyFlash images in the Lab, shared player and VS Code emulator. Unsupported layouts and REU combinations explain their limits before replacing your run.
+- **SID asset tool**: Inspect SID files and render bounded WAV previews for supported single-chip PSID v1/v2 tunes. Import recipes record what still needs qualification before target playback.
+
+### Fixed
+
+- **Volume-only samples**: Volume-register samples now play through filtered 6581 audio. The smaller residual effect on 8580 chips remains unsupported.
+- **VIC control readback**: Programs reading the horizontal display-control register now receive its programmed settings with the expected fixed high bits.
+
+## Language v0.13.0 · Lab & Guide v0.13.0 (2026-10-26)
+
+### Breaking
+
+- **First sampling occurrence**: `sampled` now captures on its first clock occurrence, including frame zero; initialization no longer skips that capture. Other temporal members keep their existing startup rules.
+
+### Added
+
+- **Readable binding calculations**: Put local constants, variables and bounded loops between `<-` and `end`, then finish with the value your binding or output needs.
+- **Binding execution clocks**: Choose when a value or output updates with `on clock`; ordinary values hold their completed result between activations.
+- **Initialized samples**: Give `sampled` a `from:` value so consumers have a checked answer before the first capture.
+- **Shared raster captures**: Capture one complete `Publication.current` value at a fixed raster line and share it with later admitted outputs, even when foreground code publishes between them.
+- **Binding and sampling guidance**: The Guide and editor explain local calculations, execution clocks and initialized samples, including the supported native reader boundaries.
+
+### Fixed
+
+- **Sums in value choices**: A `sum` inside an `if` keeps advancing on its own clock when another answer is selected.
+
+## Lab & Guide v0.12.4 · Language v0.12.0 (2026-10-26)
+
+### Fixed
+
+- **Undercrypt knight layers**: The knight's armor and plume now animate over the dungeon tile without an extra static figure underneath.
+
+## Lab & Guide v0.12.3 · Language v0.12.0 (2026-10-26)
+
+### Fixed
+
+- **Connected Undercrypt walls**: Dungeon walls now join cleanly at corners and passage entrances, without leftover floor strips crossing open corridors.
+
+## Lab & Guide v0.12.2 · Language v0.12.0 (2026-10-26)
+
+### Fixed
+
+- **Readable Undercrypt messages**: The Chronicle describes keys, gates and healing barrels in words, so dungeon tiles no longer interrupt its sentences.
+
+## Lab & Guide v0.12.1 · Language v0.12.0 (2026-10-25)
+
+### Fixed
+
+- **Input controls while scrolling**: Opening a device brings its panel into view, and the dock keeps the emulator toolbar usable as you scroll.
+
+## Lab & Guide v0.12.0 · Language v0.12.0 (2026-10-25)
+
+### Added
+
+- **Input controls in the picture**: Open a compact gamepad and mouse dock in the Lab or shared player to see connection status and switch input capture on or off.
+- **Direct controller connection**: If automatic detection misses your controller, use the browser’s device picker where WebHID is available. Supported controllers start capturing automatically and show the name the browser provides.
+- **Separate mouse capture**: Turn mouse input off without stopping keyboard or gamepad input, and choose touchpad mode separately on touch screens.
+
+## Lab & Guide v0.11.1 · Language v0.12.0 (2026-10-25)
+
+### Changed
+
+- **Less clutter around the C64**: The Lab and shared player leave out the gamepad status and general keyboard and loading instructions beneath the screen, bringing the controls closer to the picture.
+
+## Lab & Guide v0.11.0 · Language v0.12.0 (2026-10-25)
+
+### Added
+
+- **Input carets**: Add `caret: .steady` or `caret: .flashing` to a `Text` view of `keyboard.line` to show where the next character goes. Character-wrapped input boxes support movement by rows.
+- **Commodore editing keys**: Input boxes follow the two physical cursor keys and their shifted directions, alongside DEL, INST, HOME, CLR and RETURN.
+- **Cursor keys in the emulator**: Turn on **Cursor keys** in the Lab or VS Code emulator to edit with your arrow keys; turn it off to steer joystick 2.
+- **Three-prompt form**: The Crew Registration example collects and echoes three answers with a visible caret, and the Comms log shows a flashing caret while you compose.
+
+## Lab & Guide v0.10.0 · Language v0.11.2 (2026-10-25)
+
+### Changed
+
+- **Thinner snakes in Snake duel**: Each snake is one cell wide on a roomier 32 by 20 board, and every head is a lighter red or blue so you can spot it even where the snakes cross. Running into your own body now ends the round, and it is a draw if both snakes do it on the same move.
+
+## Lab & Guide v0.9.0 · Language v0.11.2 (2026-10-25)
+
+### Changed
+
+- **Gentler Snake duel bites**: A bite on the other snake now takes just that snake's last segment, wherever your head enters its body, so one slip no longer costs most of a snake. You still earn a segment for each bite, and a snake cut down to its head still loses.
+- **Snakes cross in Snake duel**: Your head carries on through the other snake after a bite, and a cell both snakes hold shows as a red and blue checker. Biting yourself still cuts your snake at the bite.
+
+## Lab & Guide v0.8.3 · Language v0.11.2 (2026-10-25)
+
+### Changed
+
+- **Live typing in wrapped text**: A wrapped `Text` that shows what you are typing, such as the Comms log's compose box, now draws your letters within a frame or two instead of after you stop. A 75-character message settles in 4 frames instead of 16.
+- **Smaller Comms log**: The Comms log is 2,174 bytes smaller and uses 2,192 fewer bytes of memory.
+- **Leaner wrapped text**: Word-wrapped text of up to 255 characters, such as the Comms log's compose box, can use about 125 bytes less program and memory and plan its rows a little faster, when nothing else about the program gets bigger, slower or heavier.
+- **Plain reads of the keyboard line**: Showing `keyboard.line` directly or in parentheses gets the same fast typing path as a `draft <- keyboard.line` name.
+- **Faster String copies and prints**: Assigning one String to another, and printing text that can only hold printable characters to a region, can run faster and shrink a program when nothing else about it gets heavier.
+- **Smaller appends**: Appending to a String of up to 255 characters can save a few bytes, when the program does not get bigger, slower or heavier anywhere else.
+
+### Fixed
+
+- **String bindings keep their limit**: Binding a longer String, such as an eight-character `keyboard.line`, to a `String<4>` now stops at the character that does not fit instead of writing past it.
+- **Repeated String changes**: `.changed` compares the text a String shows, including Strings inside structs, lists and optionals, so growing and shrinking one within a step no longer reports a change every frame.
+- **Wrapped text of the keyboard line**: A wrapped `Text` with `content: keyboard.line` written directly now shows what you type instead of staying blank.
+- **Centered and right-aligned draft**: A `Text` that shows `draft <- keyboard.line` with `.aligned(.center)` or `.aligned(.trailing)` now shows what you type instead of staying blank.
+- **Appending, clearing and truncating**: `append`, `clear` and `truncate` now refresh values and `Text` that depend on the String, just as assigning a new String does.
+
+## Lab & Guide v0.8.3 · Language v0.11.1 (2026-10-25)
+
+### Fixed
+
+- **25 Hz clocks with color updates**: Shuttle and Snake Duel can now use `System.clock.interval(ms: 40)`, including alongside a raster routine.
+- **Safer clock intervals**: The compiler now catches fractional periods that could miss ticks and gives clearer advice when an interval is too short.
+
+### Changed
+
+- **More accurate frame budgets**: Programs with color updates and raster routines now include the full time needed to read the clock. A nearly full frame may need less work.
+
+## Lab & Guide v0.8.2 · Language v0.11.0 (2026-10-25)
+
+### Breaking
+
+- **Clocks with a long start-up**: A program whose first frame runs for four or more screen refreshes, such as a big loop in `when start` beside `System.clock.interval(...)`, is now refused with advice to add a `wait` inside `when start`. Its first clock reading could otherwise wrap and silently lose time.
+
+### Added
+
+- **Faster clock intervals**: `System.clock.interval(ms: 40)` gives 25 ticks a second on PAL and NTSC whenever the compiler can show the clock is read often enough. `costs` reports how long the clock can go unread on each video standard.
+- **Clocks beside raster routines**: A `System.screen.interrupt(line:)` routine can share a program with an interval or timer unless it changes which sprites show or the vertical scroll, and the compiler counts the routine's time when it checks the clock.
+- **Clearer clock guidance**: The Guide explains the longest gap between clock reads and shows a 40 ms interval next to a raster routine.
+
+### Changed
+
+- **More careful frame check**: A raster routine that starts just before a frame and is slowed by the screen enough to still be running when the frame starts is now counted in that frame, so in rare cases a nearly full frame is refused where it used to compile. The example and benchmark programs are unchanged.
+
+## Lab & Guide v0.8.1 · Language v0.10.3 (2026-10-25)
+
+### Fixed
+
+- **Routines written as data bytes**: A `jsr` to a routine written as raw bytes, such as `.byte 96`, now compiles like the same routine written as `rts` instead of stopping with a storage error.
+
+## Lab & Guide v0.8.1 · Language v0.10.2 (2026-10-25)
+
+### Fixed
+
+- **No stray text selection**: Holding or dragging the C64 picture and its controls no longer selects the text around them.
+
+## Lab & Guide v0.8.0 · Language v0.10.2 (2026-10-25)
+
+### Added
+
+- **Joystick and Mouse buttons**: On a device with a touch screen, show or hide the on-screen joystick and turn the picture into a touchpad from buttons beside Keyboard, in the Lab and the player.
+- **Mouse for opened files**: Turn Mouse on for a PRG or disk you open from your device, and the file restarts with a mouse you can move with your cursor or finger.
+
+### Fixed
+
+- **Landscape phones**: The C64 picture now shows in the Lab's narrow landscape panel instead of shrinking to nothing.
+
+### Changed
+
+- **Easier touch targets**: The control buttons and the joystick's Hold tag are at least 44 pixels tall to tap.
+
+## Lab & Guide v0.7.0 · Language v0.10.2 (2026-10-24)
+
+### Added
+
+- **Two-player Snake duel**: Steer red and blue snakes with two joysticks, eat food, bite off tails and grow by one segment for every meal and every bite of your rival, in a new playable example.
+- **Two browser controllers**: Play together in the Lab with the first gamepad on joystick 2 and the second on joystick 1.
+
+## Lab & Guide v0.6.0 · Language v0.10.2 (2026-10-24)
+
+### Fixed
+
+- **Mouse cursor edges**: A sprite that follows the mouse stays at the bottom of the picture when you keep moving down, instead of jumping above it.
+
+## Lab & Guide v0.6.0 · Language v0.10.1 (2026-10-24)
+
+### Added
+
+- **Playable share links**: Share your compiled program with chosen emulator settings in a compressed link that opens directly in the player.
+- **Load local programs and disks**: Open a PRG, D64, D71 or D81 in the emulator while keeping your source project intact.
+- **Gamepads and touch controls**: Play with connected browser gamepads or the on-screen controller, with clear connection guidance and reliable button release.
+
+## Lab & Guide v0.5.53 · Language v0.10.1 (2026-10-24)
+
+### Fixed
+
+- **Visible welding sparks**: Deck patrol shows its rising sparks and lets you fire safely throughout the engineer's movement range.
+- **Correct Pool slot views**: Read and map `Pool.slots` without losing present values or mixing up their fields.
+- **Configured cooldowns**: A timer declared with `: Cooldown` keeps the period you chose, matching an inferred declaration.
+- **Consistent crossing signals**: Bay crossing keeps its red light and hold message together until the lane is clear.
+- **Long-running comms logs**: The transmission count stops at 999 while new messages keep arriving and the sent status stays correct.
+- **Current authoring guidance**: The Guide clarifies bindings, strings, callbacks, jobs and costs, and Crew console explains sprite coordinates correctly.
+
+## Lab & Guide v0.5.52 · Language v0.10.0 (2026-10-24)
+
+### Breaking
+
+- **Handler deadlines**: Attach a completion requirement to a frame or raster trigger with `.deadline(line:)`, such as `when System.screen.frame.deadline(line: 50)`. This replaces the detached `before(line:)` clause.
+
+### Changed
+
+- **Deadline help**: Get completion suggestions, argument hints and hover explanations for supported deadline headers, with complete examples in the Guide.
+
+## Lab & Guide v0.5.49 · Language v0.9.0 (2026-10-24)
+
+### Added
+
+- **Reusable Pool callbacks**: Pass an inline function or a saved callback to a Pool's `step`, `any` or `first`. Local snapshots let a callback use settings sampled for that call, while updates keep their existing order and checks.
+
+### Fixed
+
+- **Clearer Pool callback errors**: Invalid callback forms now receive source-level errors instead of failing inside the compiler.
+
+## Lab & Guide v0.5.47 · Language v0.8.41 (2026-10-24)
+
+### Changed
+
+- **A shared Adder identity**: Lab uses compact typography, while Guides, Welcome and the splash have more room to read. A lowercase wordmark and slanted warm bars connect them.
+- **Offline Guide fonts**: Generated Guides include their fonts, styles and licenses so they look the same when opened locally.
+
+### Fixed
+
+- **A calmer welcome**: Read the startup note in a roomier dialog with simple tabs, steady scrolling and a Continue button that stays in view.
+
+### Added
+
+- **Self-playing Snake**: The splash starts a Snake game that eats, grows and restarts on its own, with warm colors spread along its entire body.
+
+## Lab & Guide v0.5.46 · Language v0.8.41 (2026-10-24)
+
+### Added
+
+- **Full release history**: Browse every release on the new Changelog page, linked from the Language Guide and Lab.
+
+### Changed
+
+- **Recent releases in the Lab**: The Lab's changelog now shows the five most recent releases.
+
+## Lab & Guide v0.5.45 · Language v0.8.41 (2026-10-24)
+
+### Changed
+
+- **Clearer bounds and ranges**: Read bounds and ranges more easily in Lab and VS Code: type brackets follow the type color, and range markers follow numbers. Comparisons, arrows and pipes keep their usual quiet styling.
+
+## Lab & Guide v0.5.44 · Language v0.8.40 (2026-10-24)
+
+### Added
+
+- **Writable windows**: Name a slice or rectangle over mutable or mapped memory and edit its cells directly with a writable window.
+- **Share complete settings**: Share related settings with interrupts using `Publication`. Each read gets a complete old or new value, and saved copies stay unchanged.
+- **Compile-time deadlines**: Set a deadline with `before(line:)`. Adder checks at compile time that a frame handler finishes, or a raster interrupt returns, before that line.
+
+## Lab & Guide v0.5.43 · Language v0.8.39 (2026-10-24)
+
+### Added
+
+- **Publishing interrupt settings**: Use `Publication(initial:)` to share related settings with screen and timer interrupts. Saved copies stay unchanged when you publish updates.
+- **Flexible publication updates**: Build a replacement with list functions or pipes, then publish it directly or from a foreground `action`. Failed updates keep the previous value.
+
+### Fixed
+
+- **REU handle checks**: Publications and work progress now reject REU handles, which cannot be copied as ordinary values.
+- **Read-only published values**: REU transfers can no longer overwrite a publication's current value. Copy it into a `var` when you need to edit it.
+- **Clearer error locations**: Read-only and interrupt errors now point to the calls you wrote and explain how to fix them.
+
+## Lab & Guide v0.5.42 · Language v0.8.38 (2026-10-24)
+
+### Added
+
+- **Editable window cells**: Named windows over variables or mapped memory let you edit selected cells, including rectangles. Use a `var` for a separate copy.
+
+### Fixed
+
+- **Compact rectangle copies**: Rectangular copies keep compact row-copy code when their bounds are known.
+- **Rectangle bounds checks**: An invalid rectangle now stops before writing any of its cells.
+- **Mapped REU transfers**: The reference evaluator now handles REU fetches and swaps into mapped memory correctly.
+- **Restored mapped outputs**: Mapped outputs now restore their values after a handler or REU transfer overwrites them, even when the output value hasn't changed.
+
+## Lab & Guide v0.5.41 · Language v0.8.37 (2026-10-24)
+
+### Added
+
+- **Piped list calculations**: Write calculations left to right with `|>` or `:>`, using list functions such as `map`, `filter` and `reduce`.
+- **Sensor desk example**: Try Sensor desk to learn list calculations and log a whole batch with `action` and `do`.
+- **Compile-time assertions**: Check constant relationships with `#assert condition, "message"`. Failed checks point to your code; passing checks add no runtime work.
+- **Longer calculations**: Let long calculations take several display refreshes with `#allow frame_skips`. Adder still checks timing-sensitive work and reports the gap between updates.
+
+### Changed
+
+- **Consistent list functions**: List calculations now use standalone functions and explicit callbacks. The examples, Guide and editor help use the same spelling.
+- **Shared map work**: Consecutive numeric `map` calls can now share work and memory when their calculations cannot fail.
+
+### Fixed
+
+- **List and action fixes**: Piped and direct sprite calculations now agree on positions. Character lists also work with formatted digits, and actions work through included files.
+- **Compact sprite positions**: Sprite positions using named numeric limits now compile as compactly as those using literal limits.
+
+## Lab & Guide v0.5.40 · Language v0.8.36 (2026-10-24)
+
+### Added
+
+- **Pipes and lists in practice**: Sensor desk teaches list calculations, missing readings and whole-batch logging. The Quickstart also introduces pipes with a runnable example.
+
+### Fixed
+
+- **Correct sprite positions**: Fixed sprite positions in inline and piped calculations.
+- **Character lists and included actions**: `append` now accepts character lists with `digits()` results. Actions in included files work as they do in a single file.
+
+## Lab & Guide v0.5.39 · Language v0.8.35 (2026-10-24)
+
+### Added
+
+- **Actions in pipelines**: Use `action` for screen and region work inside a pipeline. `do(value, action)` runs the action once for the whole value, then passes that value onward.
+
+## Lab & Guide v0.5.38 · Language v0.8.34 (2026-10-24)
+
+### Added
+
+- **Fixed-list transformations**: Transform fixed lists with `map`, `filter`, `reduce` and `scan`. Other helpers combine lists, search them, or rearrange their entries.
+- **List functions as callbacks**: Give a standard list function a complete type signature to reuse it as a callback. Your own functions can still use the same names.
+
+### Changed
+
+- **Shared map calculations**: Compatible consecutive numeric maps now share intermediate work and memory.
+- **Consistent list semantics**: List calculations use standalone functions and explicit callbacks. Filtering keeps slot positions, and `count` counts present values, including `false`.
+
+## Lab & Guide v0.5.37 · Language v0.8.33 (2026-10-24)
+
+### Added
+
+- **Function pipes**: Pass a value into the next function with `|>` or the Commodore-friendly `:>`. Both spellings work with named functions and function values.
+
+## Lab & Guide v0.5.36 · Language v0.8.32 (2026-10-24)
+
+### Changed
+
+- **Leaner REU stores**: REU stores from stable mapped memory can avoid temporary copies when the source is guaranteed to stay unchanged.
+- **Smaller, faster text programs**: Some text programs now use less memory and run faster.
+
+### Fixed
+
+- **Consistent REU fills**: REU fills now work through the command line and project API as well as standalone source.
+
+## Lab & Guide v0.5.35 · Language v0.8.31 (2026-10-23)
+
+### Fixed
+
+- **Steady iPhone address entry**: The Ultimate address input stays in place when the iPhone keyboard opens, making addresses easier to enter.
+- **Welcome waits for you**: The welcome screen no longer interrupts if you start using the Lab while it loads; open it yourself when you are ready.
+
+## Lab & Guide v0.5.34 · Language v0.8.31 (2026-10-23)
+
+### Fixed
+
+- **Steady phone address entry**: Ultimate address entry keeps focus as phone keyboards open or resize, and search fields in the top-bar menus stay usable.
+
+## Lab & Guide v0.5.33 · Language v0.8.31 (2026-10-23)
+
+### Changed
+
+- **Responsive Lab editing**: Keep editing while compilation, C64 startup, language help, image work and project saves run in the background without freezing the editor or controls.
+- **Smoother large projects**: Large projects open more smoothly as the Lab loads optional panels on demand, reuses unchanged files and displays long listings a screenful at a time.
+
+### Fixed
+
+- **Sound when you choose**: Typing and Run no longer open an audio device; enable sound from the C64 controls, or retry unavailable sound while the program keeps running silently.
+- **Finish image edits first**: Run, Save, downloads and project switching wait for accepted image edits. The Lab warns before leaving unsaved work and explains how to retry interrupted background tasks.
+- **Virtual disk files retained**: Changing REU settings keeps files already saved to the mounted virtual disk.
+
+## Lab & Guide v0.5.32 · Language v0.8.31 (2026-10-23)
+
+### Added
+
+- **REU hardware choices**: Choose a 128 KiB to 16 MiB REU in Lab or VS Code, with optional images and Commodore or Ultimate behavior. Lab checks image sizes and keeps mounted disks when restarting; a stock C64 remains the default.
+
+## Lab & Guide v0.5.31 · Language v0.8.31 (2026-10-23)
+
+### Added
+
+- **REU storage in Adder**: Detect an REU and its capacity, then store, fetch, swap, verify or fill byte windows across banks. Frame costs include DMA time; the Guide covers insufficient expansion memory.
+
+## Lab & Guide v0.5.30 · Language v0.8.30 (2026-10-23)
+
+### Added
+
+- **REU hardware emulation**: Hosts can emulate 128 KiB to 16 MiB REUs with preloaded images and Commodore, Ultimate or Ultimate extended behavior. Transfers share machine time with the display and timers; snapshots retain expansion data and controls.
+
+### Fixed
+
+- **Sprite and REU timing**: NTSC sprite transfers use the correct bus slots across scanline boundaries, and REU transfers preserve CPU bus access when a display pause ends.
+
+## Lab & Guide v0.5.30 · Language v0.8.29 (2026-10-23)
+
+### Added
+
+- **Shared Adder libraries**: Share stateless functions between Adder projects in `.addl` libraries (WIP), with automatic call checks, memory layout and initialization. Initial support takes one or two byte inputs and returns a byte.
+- **Library inspection and help**: Inspect library functions and requirements in the CLI or Lab; completions, signatures and hovers use the same interface and refresh when it changes.
+- **Compiled library example**: Try Compiled Math Lab to call a shared library and see its results. The Guide covers building, inspecting and using libraries with the installed CLI, plus assembly callers.
+
+## Lab & Guide v0.5.29 · Language v0.8.28 (2026-10-23)
+
+### Added
+
+- **Exported C64 functions**: Export stateless functions for C64 programs (WIP), with one or two byte inputs, a byte result, chosen addresses, safety checks and resource costs. The Guide includes an assembly caller.
+
+### Changed
+
+- **Faster repeat builds**: Switching projects and undoing edits builds faster by reusing recent results. Edited code still gets checked, and compiler integrations can keep their own caches.
+- **Lighter list loops**: Some short loops that mark or move list entries need less setup; Adder uses the shortcut when the complete program gets smaller and faster within its limits.
+- **Smaller repeated messages**: Repeated message endings can share more code. Snake saves another 16 bytes with the same startup, message and frame costs.
+
+### Fixed
+
+- **Installed CLI examples**: Follow library and assembly examples using installed `adder` commands and local files, with instructions for copying generated bindings and loading both programs.
+
+## Lab & Guide v0.5.26 · Language v0.8.23 (2026-10-22)
+
+### Changed
+
+- **Shared message endings**: Repeated message endings take less space. Snake saves 72 bytes without extra memory or slower startup or frames; source costs still count all executed work.
+
+## Lab & Guide v0.5.26 · Language v0.8.22 (2026-10-22)
+
+### Changed
+
+- **Less loop setup**: Some short loops that mark or shift list entries need less setup, without using more memory or slowing startup.
+
+## Lab & Guide v0.5.26 · Language v0.8.21 (2026-10-22)
+
+### Changed
+
+- **Smaller wrapping updates**: Some bounded wrapping counter updates compile to smaller, faster code while preserving the same values and checks.
+
+## Lab & Guide v0.5.26 · Language v0.8.20 (2026-10-22)
+
+### Changed
+
+- **C64 keyboard and joystick**: Open or hide on-screen C64 keyboard and Joystick 2 controls, with latched directions, sticky modifiers and key banks. They open by default on touch screens; a shorter layout leaves more screen space.
+
+## Lab & Guide v0.5.25 · Language v0.8.20 (2026-10-22)
+
+### Changed
+
+- **Fewer repeated color fills**: Setting a constant screen color with constant row, column or region accents avoids redundant per-frame fills; Adder draws those accents at startup.
+
+## Lab & Guide v0.5.25 · Language v0.8.19 (2026-10-22)
+
+### Changed
+
+- **Lighter C64 emulation**: The C64 emulator uses less temporary memory and copies less state at breakpoints. Cycle counts follow bus activity, with corrected handling of disabled interrupts during display pauses.
+
+## Lab & Guide v0.5.24 · Language v0.8.19 (2026-10-22)
+
+### Fixed
+
+- **Accessible CLI help**: The command-line Guide replaces an inaccessible repository link while keeping public cost documentation and built-in command help available.
+
+## Lab & Guide v0.5.23 · Language v0.8.19 (2026-10-22)
+
+### Changed
+
+- **Faster VS Code help**: VS Code completions and hints respond faster and stay available during background builds. Editing refreshes the help for your code.
+- **Single assembly view**: The cost pane shows authored assembly once, with source links, branch navigation and cost figures still available.
+- **CLI quick reference**: The Guide adds a quick CLI reference for projects, compilation, costs, formatting and the language server, linked from Quickstart and supported by fuller command help.
+
+## Lab & Guide v0.5.22 · Language v0.8.19 (2026-10-22)
+
+### Changed
+
+- **Project checks in VS Code**: VS Code checks included files in their project context, finds shared declarations, labels and assets, and keeps inline costs attached to the right source when switching files or reusing builds.
+- **Costs beside your code**: Click compact cost hints beside your code. The pane shows source costs, indented assembly and scrollable project totals; an optional editor frame summary starts off.
+- **Language help without builds**: Get completions, signatures, hovers and navigation without building or loading assets, even with incomplete calls. Hovering no longer measures costs, and unused-`fast` checks avoid compilation.
+
+- **Loop and byte examples**: The Guide explains loops with changing ends. Examples use blank-font padding in the splash and shorter room and character-map code in Undercrypt.
+
+## Lab & Guide v0.5.21 · Language v0.8.16 (2026-10-22)
+
+### Changed
+
+- **Snake and Classics**: Conduit is now Snake in Classics, alongside Jupiter Lander, Mystify and Plasma after the learning path; all four remain on the examples disk.
+
+## Lab & Guide v0.5.20 · Language v0.8.16 (2026-10-22)
+
+### Changed
+
+- **Source and assembly together**: Explore bytes, cycles and assembly for each source file, follow branches and copy selections. Cost views follow unsaved edits, and the Lab frame meter links to busy code.
+
+- **Compact toolbar in narrow windows**: Narrow windows move Hot load and downloads into More, keeping primary commands on one row. Phones group Guide and device actions there; wide windows keep dedicated controls.
+
+## Lab & Guide v0.5.19 · Language v0.8.16 (2026-10-22)
+
+### Changed
+
+- **Editor options nearby**: Formatting, wrapping, text size and phone cost visibility sit beside the editor, with Options on phones; desktop About and release notes sit beside Guide and Ko-fi.
+- **Compact build status**: Running status and build figures share one compact line; scroll the figures on narrow screens with touch or keyboard to reach every value.
+
+## Lab & Guide v0.5.18 · Language v0.8.16 (2026-10-22)
+
+### Changed
+
+- **Clearer Lab command layout**: Desktop Guide, Ko-fi and More sit beside the title, with Run, Save and device actions below; sending to Ultimate and its settings share one control.
+
+### Fixed
+
+- **Single button outlines**: Disabled toolbar buttons keep one clean outline while retaining their larger touch targets.
+
+## Lab & Guide v0.5.17 · Language v0.8.16 (2026-10-22)
+
+### Changed
+
+- **Grouped commands and status**: Project, run, download and help actions stay grouped, while status and build figures move below the workspace; phones use a compact Stats control.
+- **Easier menu navigation**: Menus stay within the window, support keyboard navigation and restore focus when closed; larger touch targets and one More destination simplify About and release history.
+
+## Lab & Guide v0.5.16 · Language v0.8.19 (2026-10-22)
+
+### Changed
+
+- **Storage for record lists**: Adder chooses different record-list layouts when they save memory or CPU cycles without increasing other program costs.
+
+## Lab & Guide v0.5.16 · Language v0.8.18 (2026-10-22)
+
+### Changed
+
+- **Shared output calculations**: Related outputs can share an integer calculation, making some programs smaller or faster without extra storage or slower startup.
+
+## Lab & Guide v0.5.16 · Language v0.8.17 (2026-10-22)
+
+### Changed
+
+- **Shared output change checks**: Related consecutive outputs can share change checks without changing timing or order. Signal Test saves 16 program bytes and 20 worst-case frame cycles.
+
+## Lab & Guide v0.5.16 · Language v0.8.16 (2026-10-22)
+
+### Added
+
+- **Read and write bytes**: Use `.lo` and `.hi` to read bytes from two-byte whole-number expressions as `Number<u8>`, or assign them on a `Number<u16>` variable without masks or division.
+- **Loops with changing bounds**: Use changing upper bounds in loops such as `0..<count` when their integer types have known maxima; empty ranges skip, and frame costs include the maximum turns.
+- **Longer assembly branches**: Conditional branches in `asm` can reach beyond `-128...127` bytes; Adder adds a longer jump when needed, so more assembly labels stay reachable.
+
+### Changed
+
+- **Less work for unchanged state**: Reactive bindings share compact change flags, including rows in small lists; idle frames skip unchanged groups, and frame costs follow the outputs each path can reach.
+- **Keyboard checks and timer reads**: Keyboard `stroke` and `dropped` conditions avoid copying six-byte records; multi-byte variables changed by timer interrupts recheck the high byte to avoid mixed values.
+- **Colors for text rows**: Color a text-row slice with one `Color` value using `System.screen.color[row][a..<b] <- color`, alongside assembly that leaves its screen addresses and variables alone.
+
+## Lab & Guide v0.5.13 · Language v0.8.13 (2026-10-22)
+
+### Changed
+
+- **Keyboard and joystick guidance**: The Guide explains how joysticks share keyboard wiring, which combinations can cause misleading key readings, and how to test supported controls.
+
+## Lab & Guide v0.5.15 · Language v0.8.15 (2026-10-22)
+
+### Added
+
+- **Four text backgrounds**: Use four text backgrounds with `System.screen.extended_background` alongside `System.screen.background`, then pick each character's glyph and background with `ScreenCode(glyph: 0...63, background: 0...3)`.
+- **Fill unused font slots**: Fill a 256-character font from a shorter glyph list with `Charset(glyphs, fill:, map:)`, using `fill: blank_glyph` for unused slots.
+- **Whole number sine waves**: Turn a `0...255` phase into a whole-number sine wave with `phase.sine(lo...hi)`, using tables built at compile time or a shared 256-byte runtime table.
+
+### Changed
+
+- **Faster table and grid loops**: Stepped reads from 256-entry tables can run faster in loops and `.map(...)`. Short inner loops over 2D screen and color grids can match hand-written speed.
+
+## Lab & Guide v0.5.14 · Language v0.8.14 (2026-10-22)
+
+### Changed
+
+- **Smaller private byte updates**: Eligible private byte increments and decrements use one instruction. The private-field example drops from 22 to 16 cycles and saves eight bytes; the Guide reflects these costs.
+
+## Lab & Guide v0.5.13 · Language v0.8.13 (2026-10-22)
+
+### Changed
+
+- **Keyboard and joystick guidance**: The Guide explains how joysticks share keyboard wiring, which combinations can cause misleading key readings, and how to test supported controls.
+
+## Lab & Guide v0.5.12 · Language v0.8.13 (2026-10-22)
+
+### Fixed
+
+- **Reliable graphics startup**: Large projects initialize sprites, fonts and screens correctly and restore their original contents when you run the program again.
+
+## Lab & Guide v0.5.12 · Language v0.8.12 (2026-10-22)
+
+### Changed
+
+- **Smaller fixed-point calculations**: Bounded coordinate and fixed-point calculations use less memory and code. Mandelbrot shrinks from 2,898 to 2,043 bytes, with worst-case frame costs falling from 15,163 to 2,695 cycles.
+- **Quicker list results and loops**: List-building functions copy less data, and eligible private byte loops run faster. The 40-cell example's worst-case frame cost falls from 2,393 to 2,076 cycles.
+- **Cheaper frame updates**: Values written every frame cost less to update, while change events, histories and device writes keep their existing behavior.
+- **Updated frame cost examples**: The Guide's oversized-frame messages now reflect the smaller generated programs.
+
+## Lab & Guide v0.5.11 · Language v0.8.11 (2026-10-21)
+
+### Added
+
+- **Code navigation in the Lab**: Use `F12` for definitions and `include` files; the Lab also adds references, renaming, a symbol outline, cross-file read/write highlights and compiler-checked fixes.
+
+## Lab & Guide v0.5.10 · Language v0.8.11 (2026-10-21)
+
+### Added
+
+- **Editor language server**: Use `adder lsp --stdio` for editor diagnostics and fixes, navigation, renaming, completion, formatting and byte/cycle costs. Integrations can use `@adder/compiler/lsp` and `@adder/compiler/service`.
+- **VS Code extension**: Use `adder-vscode.vsix` in desktop VS Code or `vscode.dev` for highlighting, byte/cycle hints, cost/assembly reports and a C64 emulator with automatic disk mounting and reload-on-save.
+
+### Changed
+
+- **Binding details on hover**: Lab hovers for `const`, `var` and `<-` bindings show resolved types alongside hardware, function and cost details.
+
+## Lab & Guide v0.5.9 · Language v0.8.10 (2026-10-21)
+
+### Changed
+
+- **Faster bounded division**: Bounded division in `fast` code can use a shared table; ordinary and `small` code keep their compact approach. The divide-by-320 example shrinks from 537 to 470 bytes and from 2,232 to 84 worst-case frame cycles.
+- **Tighter guarded copy costs**: Costs for a bounded list-copy loop count a copy once when its Boolean guard is cleared, while still counting every guard test. The Lab and Guide explain the bound.
+- **Cheaper typed input**: Typed keyboard input uses less frame time, with the same typing and queue behavior. The sample's worst-case frame cost falls from 8,992 to 5,163 cycles.
+- **Accurate list memory checks**: Memory checks account for startup-filled lists and alignment, keeping ordinary data outside I/O addresses and accepting final layouts that fit.
+- **Clearer video standard errors**: The emulator rejects unsupported video standards with a clear error, leaving the running machine and pending audio unchanged.
+
+## Lab & Guide v0.5.8 · Language v0.8.9 (2026-10-21)
+
+### Changed
+
+- **Visible screens with timers**: Text and bitmap displays start normally in hardware-timer programs, including those whose raster routines begin inactive.
+- **Reliable timer program compilation**: Timer programs compile correctly when they need private temporary storage, and working-memory reports match the bytes actually reserved.
+- **Quicker native keyboard input**: The native keyboard editor leaves more frame time for other work alongside assembly and interrupts on PAL and NTSC, with unchanged typing behavior.
+
+## Lab & Guide v0.5.8 · Language v0.8.8 (2026-10-21)
+
+### Changed
+
+- **Cost details at a glance**: Hover or focus a cycle figure for cost and memory details, then open it in the 6502 inspector's Woven or Flow view.
+- **See what calls change**: Call costs and hovers describe changes with the names you wrote, with exact fields, ranges and helper details available when needed.
+- **Clearer inspector costs**: The inspector distinguishes each line's bytes from shared and deferred work, with labels for unknown, declared, trusted and per-loop-turn costs.
+
+## Lab & Guide v0.5.7 · Language v0.8.7 (2026-10-21)
+
+### Changed
+
+- **Smaller arithmetic for packed coordinates**: Multiplying or dividing by 256 and other large powers of two produces smaller code for packed coordinates, with the same range checks.
+- **Cheaper hardware cell bindings**: Bindings reading fixed hardware-array cells use less code, memory and update time. Whole-array reads, slices and changing indexes keep their existing checks.
+- **Accurate text frame errors**: Oversized text scenes report the frame limit and required cycles without false overlap errors. Adder also stops retrying text options that are already disabled.
+- **Expansion reads and project loading**: The emulator reads back expansion-port writes when no cartridge owns `$DE00` through `$DFFF`. Projects load faster by skipping dependency and build folders.
+
+## Lab & Guide v0.5.7 · Language v0.8.6 (2026-10-21)
+
+### Added
+
+- **Plasma example**: Try the 60 fps `Plasma` example in `Learn Adder`: dithered graphics, four background colors, per-cell colors and a sprite banner.
+
+### Changed
+
+- **Faster screen and color loops**: Multi-row screen and color fills can run in one pass if the frame's work finishes before the beam reaches the bottom row. Indexed reads and column offsets also run faster.
+- **Less repeated work**: Some loops and helpers produce smaller, faster code by reusing values across branches and calls.
+- **Quicker private calculations**: Small private calculations use less memory and update faster, with the same event timing, sound changes and retained text.
+- **Fewer record and list copies**: Functions returning records or lists can fill new local values directly, reducing copying and working memory.
+- **Smaller numeric helpers**: Numeric helpers can produce smaller code for known byte values and constants, sharing code when a separate version would cost more.
+- **Automatic savings in the Guide**: The Guide explains automatic size and speed savings that need no `fast` mark.
+- **Cheaper repeated frame events**: Repeated frame events with the same interval can use less code and memory while keeping their schedules.
+- **Cheaper list fills**: Loops that write fixed numbers into lists need less temporary storage and address setup, with existing index and value checks preserved.
+
+## Lab & Guide v0.5.7 · Language v0.8.5 (2026-10-21)
+
+### Changed
+
+- **Release notes on return visits**: Returning to the Lab after an unseen release opens the Welcome dialog's `Changelog` tab, and dismissing it marks the entry as read.
+
+## Lab & Guide v0.5.6 · Language v0.8.5 (2026-10-20)
+
+### Changed
+
+- **Faster bounded helper calls**: Helpers can run faster with less memory when all callers supply values within known bounds, even through nested calls.
+- **Quicker row updates**: Row-update loops can run faster when helpers change cells or windows, while nested calls and overlapping copies keep their existing order.
+- **Less temporary struct memory**: Private struct fields can use less temporary memory, and harmless overwritten assignments no longer need code or workspace.
+- **Correct snapshots and failure locations**: Local constants in mutable helpers keep values captured before a parameter changes, and failed result checks point to the helper's result line.
+- **Correct values in shared methods**: Methods shared across different value bounds preserve each call's values correctly, including text rows and event counters.
+
+## Lab & Guide v0.5.6 · Language v0.8.4 (2026-10-20)
+
+### Changed
+
+- **Smaller struct programs**: Repeated methods on same-size structs can share code and memory, shrinking programs that use text regions, collections or your own structs.
+- **Correct returned callbacks**: Struct methods that change a passed variable return the chosen callback correctly across repeated calls.
+- **Less function setup and storage**: Unused locals and harmless unused assignments need no code or storage, and character-only printing no longer reserves word-wrapping space.
+- **Smaller, quicker text scrolling**: Full-screen text can scroll in one frame whenever it fits, even with infrequent printing. Hello World and row-at-a-time text programs get smaller.
+- **Smaller repeated printing**: Fixed-text printing, short left-aligned lines and stable-row fills need less repeated work. Hello World uses less program and working memory.
+- **Correct method receiver snapshots**: Read-only methods keep the original receiver value when a later argument changes that same object.
+
+## Lab & Guide v0.5.6 · Language v0.8.3 (2026-10-20)
+
+### Changed
+
+- **Larger source files**: Large `.adder` files and comments are no longer capped at 65,535 characters; compiled `.prg` files still have to fit the C64's memory.
+- **Simpler Language Reference**: The Language Reference uses examples and keyword/operator tables instead of BNF boxes and a separate Grammar Summary chapter.
+
+## Lab & Guide v0.5.5 · Language v0.8.2 (2026-10-20)
+
+### Added
+
+- **Disk and cartridge exports**: Export PRG, D64, D71, D81, Magic Desk or EasyFlash projects from the Lab or command line, including companion data and auto-booting cartridges. No extra disk tool is needed.
+- **File operations and saved state**: Use virtual drives 8 through 11 for file operations, bounded streams on C64 hardware, and bundled ROM assets in cartridges. Snapshots keep disks and open files; project reloads keep saved files.
+
+## Lab & Guide v0.5.4 · Language v0.8.1 (2026-10-20)
+
+### Added
+
+- **Standalone Adder command**: Create projects with `adder new`, including Sprite & Sound, Text & Input, Bitmap Canvas and Minimal templates. Compile, inspect costs and format source from the command line.
+
+## Lab & Guide v0.5.3 · Language v0.8.1 (2026-10-20)
+
+### Changed
+
+- **Smaller canvas downloads**: Canvas `.prg` downloads omit empty working memory. `mystify.prg` shrinks by over 11 KB (90%) with unchanged frame speed.
+- **Packed graphics assets**: Tile maps, fonts and sprites pack automatically and unpack before the first frame, saving over 6.6 KB in games such as `Scroller` and `Walker`.
+- **Faster five-digit formatting**: Formatting 16-bit scores and counters with `.digits(5)` saves 350 to 850 cycles per call, leaving more frame time for HUD updates.
+- **Smaller, faster disk files**: Sparse `Disk.save` and `Disk.load` data cuts 1541 save sizes and transfer times by 40% to 85%, with file-integrity checks on load.
+
+## Lab & Guide v0.5.2 · Language v0.8.0 (2026-10-20)
+
+### Added
+
+- **Delete saved browser projects**: Delete old browser projects with the button beside each entry under `Project` > `Saved in this browser`.
+
+## Lab & Guide v0.5.1 · Language v0.8.0 (2026-10-19)
+
+### Added
+
+- **Automatic source formatting**: Format `.adder` files with two-space indentation, consistent spacing and aligned data rows while preserving comments and inline assembly.
+- **Editor wrapping and formatting**: Use `Wrap` for long editor lines without disturbing cycle costs, `Format` (`Shift+Alt+F`) for consistent source, and automatic indentation on `Enter`.
+- **Simpler screen text bindings**: Bind strings, character arrays or single characters directly to `System.screen.text`, and use `.digits(N)` in choices, concatenation and interpolated strings.
+- **Project entry files**: Set a folder project's entry file with `"entry"` in `project.json`, or let Adder use `main.adder`.
+- **Guided learning chapters**: The project picker's `Learn Adder` examples are grouped into four chapters, with the file tree hidden for single-file examples and opened for multi-file projects.
+
+### Changed
+
+- **Clearer starter examples**: Early `Learn Adder` examples put the main idea at the top with less setup.
+
+## Lab & Guide v0.4.2 · Language v0.7.0 (2026-10-19)
+
+### Added
+
+- **Constant tables and fonts**: Build tables and fonts in `const` declarations using pure functions, local variables, loops, branches and constant-range `.map`, with no runtime calculation.
+
+### Changed
+
+- **Easier Desktop window controls**: Desktop title bars and close buttons are easier to grab, and Port 2 joysticks can move the cursor and drag windows alongside the 1351 mouse.
+
+## Lab & Guide v0.4.1 · Language v0.6.0 (2026-10-18)
+
+### Added
+
+- **Bounded ASCII strings**: Use fixed-capacity ASCII `String<N>` values with interpolation, concatenation, slicing, trimming, editing, number formatting and parsing, plus live display through `Text` and `TextPage`.
+- **Functions as values**: Functions can accept and return typed functions such as `fn(Digit): Digit`, and list `.map` and `.filter` accept named functions or inline closures.
+- **In-place mutable parameters**: Use `mut` parameters to let helpers update variables, struct fields and list items without copying, with dependent screen bindings refreshed automatically.
+- **Background job progress**: Background `work` jobs can report progress with `publish value`, giving each frame a `.progress` snapshot alongside `.running`.
+- **Mode resources and interrupt helpers**: Mode `case` blocks can own displays, queues, jobs and scrolling, with automatic cleanup on mode changes. Raster and timer interrupts gain locals, branching, helpers and `asm`, with cycle-budget checks.
+- **String and callback examples**: Try complete greeting, command-parser, high-score and calculator projects, plus an interactive digit-transform example in the Guide.
+- **Help for new language features**: The editor and Guide explain strings, function values, mutable parameters, background progress and interrupts, including costs and which variables calls change.
+
+### Changed
+
+- **Faster callbacks and comparisons**: Known callbacks in `.map` and `.filter` run faster, including hardware sprite loops, and short string and slice comparisons are quicker.
+- **Faster matches and division**: Dense numeric `match` blocks and eligible constant division can run faster, and frequently used loop variables get priority in faster memory. Full-screen tile maps need less startup and idle work.
+- **Updated learning examples**: `Flares` uses `flares.map(flare_sprite)`, Desktop reorders windows with `raise(mut wins, p)`, and the nav computer counts primes in a background job with a live progress bar.
+- **Sound guidance and Atlas controls**: The Language Reference explains `Envelope` and `Tone` in more detail, and Atlas Studio has simpler tile-size and zoom controls.
+
+### Fixed
+
+- **Consistent background progress snapshots**: Multi-byte `.progress` and `String<N>` snapshots stay consistent across frames, including reads from raster or timer interrupts. They reset correctly when you reenter a mode.
+- **Trailing spaces in keyboard input**: Submitted keyboard lines keep trailing spaces and their exact lengths.
+- **Steadier mouse and paddle tracking**: The emulator tracks the 1351 mouse and paddles more steadily, without startup jumps.
+
+## Lab & Guide v0.2.0 · Language v0.3.0 (2026-10-17)
+
+### Added
+
+- **Sound and sprite controls**: Control pulse and combined SID waveforms with full `Tone` settings, filters and volume. Read Voice 3's oscillator/envelope and use sprite expansion, priority, multicolor and collision flags.
+- **Built-in game collections**: Use fixed-capacity `Pool` values for active game objects, `Ring` queues, shuffled `Deck` values, `Rect` hitboxes, frame `Cooldown` timers, `Wave` tables and `Flags` bitsets.
+- **Disk jobs and file streams**: `System.drive[8...11]` supports reactive `load` and `save` jobs, bounded `file(name).read(capacity:)` streams and clear disk errors. Projects can export multiple `.d64` disks.
+- **Canvas lines, paths and circles**: Draw lines, connected paths and exact midpoint circles on hires or multicolor canvases, with automatic background restoration and `.inverted` overlays.
+- **Release notes in the Lab**: The Lab toolbar has a `Changelog` button, and the Welcome dialog has a `Changelog` tab.
+
+### Changed
+
+- **Consistent color names**: Use `color` for foregrounds, cursors and palettes, and `background` for canvas backgrounds in hires and multicolor modes.
+- **Expanded learning examples**: Updated `Engine Room`, `Jupiter Lander`, `Deck Patrol` and `Crew Console` demonstrate SID filtering, `Rect.overlaps` hitboxes, `Pool` + `Cooldown` particle sparks and windowed drawing.
+- **Clearer project entry badges**: Multi-file projects show an `entry` badge on the main file's editor tab and file-tree row, replacing the dot indicator.
+
+## Lab & Guide v0.1.3 · Language v0.1.0 (2026-10-17)
+
+### Changed
+
+- **Compact Desktop example**: The Desktop (`Crew Console`) example combines its artwork into one sprite/tile sheet, compiling to 2,211 bytes with a worst-case frame cost of 5,204 cycles.
+
+### Fixed
+
+- **Ready-to-use artwork declarations**: Asset Studio tile entries copy `Picture(...)` declarations ready to use, and new layers inherit the entry's chosen color.
+
+## Lab & Guide v0.1.2 · Language v0.1.0 (2026-10-17)
+
+### Added
+
+- **Artwork drawing tools**: Draw, fill, move, wrap, flip or clear artwork in Atlas & Charset Studio, with undo/redo, clickable neighboring previews and saved zoom/tool settings.
+
+## Lab & Guide v0.1.1 · Language v0.1.0 (2026-10-17)
+
+### Added
+
+- **Browser Lab and Guide**: The browser Lab and Guide launch at `https://lab.adder.run/`, with an `Open the Lab` link from `https://adder.run/`.
+
+### Changed
+
+- **Refreshed example artwork**: Built-in examples have refreshed sprites, character sets and project descriptions.
+
+## Lab & Guide v0.1.0 · Language v0.1.0 (2026-10-16)
+
+### Added
+
+- **Visible version numbers**: Check Language and Lab & Guide versions with `adder --version`, in the Lab toolbar and Welcome dialog, or in the Quickstart and Reference guides.
+- **Welcome dialog**: The Welcome dialog shows emulator loading status, steps to start a project and release notes.
