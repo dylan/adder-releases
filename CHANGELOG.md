@@ -2,6 +2,37 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.25.5 · Lab & Guide v0.22.0 (2026-11-02)
+
+### Fixed
+
+- **Remember lists in ops**: Calls to an `op` can remember each list item's previous value without a compiler error.
+- **Meet frame deadlines**: Programs can meet a handler's deadline by using larger, faster copies of long values.
+- **Faster list fills**: Loops that fill a byte list with the same value can use less memory and leave more time in each frame.
+- **Current calculations**: A loop that reads a calculation again after changing one of its inputs now gets the updated value.
+
+## Language v0.25.4 · Lab & Guide v0.22.0 (2026-11-01)
+
+### Added
+
+- **Run without drawing**: Headless emulator programs can pause picture updates while the C64's hardware keeps running.
+
+### Fixed
+
+- **Clean video changes**: Switching between PAL and NTSC clears unused picture rows in the emulator.
+
+## Language v0.25.4 · Lab & Guide v0.21.3 (2026-11-01)
+
+### Changed
+
+- **Lighter C64 emulation**: The C64 emulator in the Lab and VS Code needs less computer time per frame.
+
+## Language v0.25.4 · Lab & Guide v0.21.2 (2026-10-31)
+
+### Fixed
+
+- **Crew registration cursor**: The cursor stays visible after you type all 24 characters of an answer.
+
 ## Language v0.25.4 · Lab & Guide v0.21.1 (2026-10-31)
 
 ### Fixed
