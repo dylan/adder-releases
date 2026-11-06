@@ -2,6 +2,18 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.28.1 · Lab & Guide v0.26.1 (2026-11-06)
+
+### Changed
+
+- **Smaller mapped programs**: Programs using mapped memory take less space and do less work each frame when nothing watches that memory for changes.
+
+## Language v0.28.0 · Lab & Guide v0.26.1 (2026-11-06)
+
+### Fixed
+
+- **Edit as the Lab opens**: Replacing the starting example keeps your text without joining it to the example.
+
 ## Language v0.28.0 · Lab & Guide v0.26.0 (2026-11-06)
 
 ### Added
