@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.28.0 · Lab & Guide v0.26.0 (2026-11-06)
+
+### Added
+
+- **Choose your C64 colors**: Choose Vibrant or Realistic colors in the Lab, player and VS Code emulator, even before Run, and keep your choice on your device.
+
 ## Language v0.27.7 · Lab & Guide v0.25.9 (2026-11-06)
 
 ### Changed
