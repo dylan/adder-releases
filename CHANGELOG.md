@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.28.2 · Lab & Guide v0.26.1 (2026-11-06)
+
+### Changed
+
+- **Smaller constant products**: Multiplying a small range of whole numbers by a constant can make your program smaller and faster, while mapped inputs keep their overflow checks.
+
 ## Language v0.28.1 · Lab & Guide v0.26.1 (2026-11-06)
 
 ### Changed
