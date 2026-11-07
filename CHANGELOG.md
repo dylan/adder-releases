@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.29.2 · Lab & Guide v0.26.1 (2026-11-07)
+
+### Changed
+
+- **Faster feedback while you type**: In VS Code, errors and warnings appear right after each edit instead of waiting for cost figures, and costs are worked out only while you're looking at them.
+
 ## Language v0.29.1 · Lab & Guide v0.26.1 (2026-11-07)
 
 ### Fixed
