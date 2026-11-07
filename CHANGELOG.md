@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.29.0 · Lab & Guide v0.26.1 (2026-11-07)
+
+### Added
+
+- **Place assembly programs**: Use `--origin` and `--limit` with `adder compile --asm` to choose where your assembly program loads and keep it inside a memory range.
+
 ## Language v0.28.2 · Lab & Guide v0.26.1 (2026-11-06)
 
 ### Changed
