@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.29.1 · Lab & Guide v0.26.1 (2026-11-07)
+
+### Fixed
+
+- **Clear text errors**: Text with a backtick, brace or tilde now gets a clear error instead of showing spaces, because the C64 font has no picture for them. `ScreenCode("...")` still accepts them for custom-font tiles.
+
 ## Language v0.29.0 · Lab & Guide v0.26.1 (2026-11-07)
 
 ### Added
