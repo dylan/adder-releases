@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.33.0 · Lab & Guide v0.26.5 (2026-11-08)
+
+### Changed
+
+- **Call shared assembly helpers**: The compiler now counts bounded startup helpers automatically, so you can leave out `cycles(...)` when it can count every call; keep an allowance for helpers it cannot count.
+
 ## Language v0.32.4 · Lab & Guide v0.26.4 (2026-11-08)
 
 ### Changed
