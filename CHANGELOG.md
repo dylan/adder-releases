@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.34.1 · Lab & Guide v0.26.6 (2026-11-08)
+
+### Changed
+
+- **More room for art**: Programs can reuse a packed font or sprite copy's memory after startup, with a little more loading work when an owned screen holds the copy.
+
 ## Language v0.34.0 · Lab & Guide v0.26.6 (2026-11-08)
 
 ### Changed
