@@ -2,6 +2,13 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.37.0 · Lab & Guide v0.26.9 (2026-11-08)
+
+### Changed
+
+- **Lighter sprite rows**: Raster sprites take less time and space, and a fixed sprite can stay on screen without an interrupt or repeated preparation.
+- **More sprites over terrain**: Show complete sprites at fixed raster rows with `on System.screen.interrupt(line:)` and reuse a slot after its earlier sprite finishes, with checked timing and one completed view for sprites and scrolling terrain.
+
 ## Language v0.36.0 · Lab & Guide v0.26.8 (2026-11-08)
 
 ### Changed
