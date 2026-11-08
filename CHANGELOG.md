@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.35.0 · Lab & Guide v0.26.7 (2026-11-08)
+
+### Changed
+
+- **Load art by level**: Use `System.drive[8].load` to read fonts, sprites and sprite lists from art companions bundled with your disk or cartridge.
+
 ## Language v0.34.1 · Lab & Guide v0.26.6 (2026-11-08)
 
 ### Changed
