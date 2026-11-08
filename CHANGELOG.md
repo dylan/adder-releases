@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.33.1 · Lab & Guide v0.26.5 (2026-11-08)
+
+### Changed
+
+- **Loads finish in the interpreter**: Typed loads now return a value or a named failure without an explicit frame clock, and `attempt:` starts a fresh read.
+
 ## Language v0.33.0 · Lab & Guide v0.26.5 (2026-11-08)
 
 ### Changed
