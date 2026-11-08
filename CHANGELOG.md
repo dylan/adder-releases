@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.36.0 · Lab & Guide v0.26.8 (2026-11-08)
+
+### Changed
+
+- **Leave calculations early**: Use `guard condition else value` in a function or op to return a fallback and keep the remaining calculation easy to read.
+
 ## Language v0.35.0 · Lab & Guide v0.26.7 (2026-11-08)
 
 ### Changed
