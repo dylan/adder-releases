@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.31.0 · Lab & Guide v0.26.3 (2026-11-08)
+
+### Changed
+
+- **Multiply then divide naturally**: Write `a * b / c` and Adder keeps the exact product, so `30000 * 2 / 2` gives `30000` instead of overflowing. **Breaking:** `Number.mul_div` is gone; write `a * b / c` instead.
+
 ## Language v0.30.0 · Lab & Guide v0.26.2 (2026-11-08)
 
 ### Changed
