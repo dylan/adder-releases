@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.32.0 · Lab & Guide v0.26.4 (2026-11-08)
+
+### Changed
+
+- **Fetch rows with a slice**: Fill several rows from the RAM expansion with `reu.fetch(into: mut back[13..<25], bank: 0, offset: 6656, stride: 512)`. **Breaking:** `reu.fetch_rows` is gone; pass a slice of rows to `reu.fetch` instead.
+
 ## Language v0.31.0 · Lab & Guide v0.26.3 (2026-11-08)
 
 ### Changed
