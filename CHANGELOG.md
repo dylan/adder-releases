@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.32.3 · Lab & Guide v0.26.4 (2026-11-08)
+
+### Changed
+
+- **Faster loops over lists**: Loops that update one list from another, like a field of cells, now run several times faster when you write them the natural way, and sums that always fit skip their clamping.
+
 ## Language v0.32.2 · Lab & Guide v0.26.4 (2026-11-08)
 
 ### Changed
