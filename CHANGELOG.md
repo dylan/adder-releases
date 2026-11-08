@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.30.0 · Lab & Guide v0.26.2 (2026-11-08)
+
+### Changed
+
+- **Clearer load errors**: A damaged file now fails with `.damaged`, and a file saved as a different type fails with `.wrong_type`. **Breaking:** code that matched `.device_error(code: 74)` for these should match the new names; `.device_error` now carries only errors the drive reports.
+
 ## Language v0.29.2 · Lab & Guide v0.26.1 (2026-11-07)
 
 ### Changed
