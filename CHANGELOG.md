@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.34.0 · Lab & Guide v0.26.6 (2026-11-08)
+
+### Changed
+
+- **Short text fits**: Fill a fixed text destination with a shorter literal or String, and Adder adds the remaining spaces; text that is too long still reports both lengths.
+
 ## Language v0.33.1 · Lab & Guide v0.26.5 (2026-11-08)
 
 ### Changed
