@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.32.4 · Lab & Guide v0.26.4 (2026-11-08)
+
+### Changed
+
+- **Format nested choices**: Formatting keeps nested `match` and `if` expressions intact, so your program still compiles and behaves the same way.
+
 ## Language v0.32.3 · Lab & Guide v0.26.4 (2026-11-08)
 
 ### Changed
