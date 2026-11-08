@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.32.2 · Lab & Guide v0.26.4 (2026-11-08)
+
+### Changed
+
+- **Slightly smaller, faster programs**: Some value copies now take one instruction instead of two.
+
 ## Language v0.32.1 · Lab & Guide v0.26.4 (2026-11-08)
 
 ### Changed
