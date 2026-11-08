@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.32.1 · Lab & Guide v0.26.4 (2026-11-08)
+
+### Changed
+
+- **Faster loops over grids**: Index arithmetic that stays the same inside a loop is now worked out once, so a loop like `field[base + col * 64 + row]` runs about five times faster by static estimate.
+
 ## Language v0.32.0 · Lab & Guide v0.26.4 (2026-11-08)
 
 ### Changed
