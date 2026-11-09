@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.39.2 · Lab & Guide v0.26.11 (2026-11-09)
+
+### Changed
+
+- **Faster wireframes**: Moving hires wireframes can clear their old used area before drawing the next picture, with no extra mode to choose.
+
 ## Language v0.39.1 · Lab & Guide v0.26.11 (2026-11-09)
 
 ### Changed
