@@ -2,6 +2,14 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.39.0 · Lab & Guide v0.26.11 (2026-11-08)
+
+### Changed
+
+- **Faster whole pictures**: Calculate the lava lamp as one image in ordinary work, with smaller programs and quicker updates that repaint only changed rows.
+- **Canvas pixels and named colors**: Draw editable pixel rows, recolor pictures through enum values, and build optional stroke and picture lists with `map` or `zip_with`.
+- **Move pixel fields**: Canvas pixel rows follow the whole-pixel camera, and enums with shared values can also promise protocol members.
+
 ## Language v0.38.1 · Lab & Guide v0.26.10 (2026-11-08)
 
 ### Changed
