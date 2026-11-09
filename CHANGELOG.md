@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.38.1 · Lab & Guide v0.26.10 (2026-11-08)
+
+### Changed
+
+- **Faster text padding**: Shorter Strings fill fixed text lines faster, including struct fields and screen rows, while keeping their length checks.
+
 ## Language v0.38.0 · Lab & Guide v0.26.10 (2026-11-08)
 
 ### Changed
