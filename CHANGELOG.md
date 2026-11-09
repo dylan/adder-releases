@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.39.1 · Lab & Guide v0.26.11 (2026-11-09)
+
+### Changed
+
+- **Quicker large compiles**: Large programs such as Snake duel can compile sooner and produce the same C64 program.
+
 ## Language v0.39.0 · Lab & Guide v0.26.11 (2026-11-08)
 
 ### Changed
