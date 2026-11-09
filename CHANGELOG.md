@@ -2,11 +2,17 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.39.3 · Lab & Guide v0.26.11 (2026-11-09)
+
+### Changed
+
+- **Faster moving line drawings**: When every line on a canvas moves, Adder compares the cost of clearing the old area once with erasing each line, so small drawings redraw sooner too.
+
 ## Language v0.39.2 · Lab & Guide v0.26.11 (2026-11-09)
 
 ### Changed
 
-- **Faster wireframes**: Moving hires wireframes can clear their old used area before drawing the next picture, with no extra mode to choose.
+- **Faster moving line drawings**: When every line on a canvas moves, Adder clears the old area once instead of repairing each line, so pictures redraw sooner.
 
 ## Language v0.39.1 · Lab & Guide v0.26.11 (2026-11-09)
 
@@ -18,7 +24,7 @@ Updates to the Adder language, Lab and Guide.
 
 ### Changed
 
-- **Faster whole pictures**: Calculate the lava lamp as one image in ordinary work, with smaller programs and quicker updates that repaint only changed rows.
+- **Faster whole pictures**: Calculate a complete pixel image in `work` for smaller programs and quicker updates that repaint only changed rows.
 - **Canvas pixels and named colors**: Draw editable pixel rows, recolor pictures through enum values, and build optional stroke and picture lists with `map` or `zip_with`.
 - **Move pixel fields**: Canvas pixel rows follow the whole-pixel camera, and enums with shared values can also promise protocol members.
 
