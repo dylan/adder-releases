@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.38.0 · Lab & Guide v0.26.10 (2026-11-08)
+
+### Changed
+
+- **Share view helpers**: Use protocols to share helpers and scroll ordinary text beside a fixed 40-column HUD; this breaking change replaces the screen's fine-scroll offsets with whole-pixel camera coordinates.
+
 ## Language v0.37.0 · Lab & Guide v0.26.9 (2026-11-08)
 
 ### Changed
