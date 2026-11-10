@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.40.0 · Lab & Guide v0.26.11 (2026-11-10)
+
+### Added
+
+- **Share helper loops**: A pure helper function or method with a long loop can now be called from more than one `work`, and each job keeps its own place in the loop. Each extra `work` that calls it adds its own copy of the helper's code, so the program grows.
+
 ## Language v0.39.4 · Lab & Guide v0.26.11 (2026-11-10)
 
 ### Fixed
