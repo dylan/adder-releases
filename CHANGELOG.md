@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.39.4 · Lab & Guide v0.26.11 (2026-11-10)
+
+### Fixed
+
+- **Fixed calculations in unused branches**: A program that repeats a fixed calculation, such as `103 - 45`, inside a branch that never runs now compiles instead of stopping with an internal error.
+
 ## Language v0.39.3 · Lab & Guide v0.26.11 (2026-11-09)
 
 ### Changed
