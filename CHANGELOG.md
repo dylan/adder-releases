@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.42.2 · Lab & Guide v0.26.11 (2026-11-11)
+
+### Changed
+
+- **Draw a job's answer directly**: Show the picture from a bound `work` job with `pixels(image ?? blank, ...)`. It now costs the same as copying each finished picture into a variable first, so you no longer need the extra variable.
+
 ## Language v0.42.1 · Lab & Guide v0.26.11 (2026-11-11)
 
 ### Fixed
