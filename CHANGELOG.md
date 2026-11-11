@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.41.0 · Lab & Guide v0.26.11 (2026-11-11)
+
+### Changed
+
+- **Clearer names for running a job by hand** (breaking): A job kept in a variable now uses `job.resume()` to do its next part and `job.finish()` to do everything that is left. These replace `job.step()` and `job.run()`.
+
 ## Language v0.40.3 · Lab & Guide v0.26.11 (2026-11-10)
 
 ### Changed
