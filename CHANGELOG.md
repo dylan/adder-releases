@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.40.2 · Lab & Guide v0.26.11 (2026-11-10)
+
+### Fixed
+
+- **Inserting text into a list**: `lines.insert("NEW LINE", at: 1)` now stores the text correctly. Before, inserting text written in quotes could garble the new line.
+
 ## Language v0.40.1 · Lab & Guide v0.26.11 (2026-11-10)
 
 ### Changed
