@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.42.0 · Lab & Guide v0.26.11 (2026-11-11)
+
+### Changed
+
+- **Bound work always finishes** (breaking): When an input changes while a bound `work` job is running, the job now finishes first and then runs again with the newest values, and the binding keeps its last answer in the meantime. Before, the job restarted on every change, so an input that changed every frame meant no answer at all. To drop stale work, assign a new job in a handler.
+
 ## Language v0.41.0 · Lab & Guide v0.26.11 (2026-11-11)
 
 ### Changed
