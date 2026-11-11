@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.40.1 · Lab & Guide v0.26.11 (2026-11-10)
+
+### Changed
+
+- **More room for keyboard programs**: When a program handles a key on one frame and redraws on another, Adder no longer counts both against the same frame, so more programs fit. Your program runs exactly as before; only the estimate is tighter.
+
 ## Language v0.40.0 · Lab & Guide v0.26.11 (2026-11-10)
 
 ### Added
