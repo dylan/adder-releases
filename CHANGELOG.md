@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.40.3 · Lab & Guide v0.26.11 (2026-11-10)
+
+### Changed
+
+- **Faster line edits**: Inserting or removing a line in a list of long text lines is much quicker, so a text editor can do it within one frame. Reading a line from such a list takes slightly longer, and the cost report shows which lists work this way.
+
 ## Language v0.40.2 · Lab & Guide v0.26.11 (2026-11-10)
 
 ### Fixed
