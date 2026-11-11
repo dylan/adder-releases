@@ -2,7 +2,7 @@
 
 **Standalone CLI binaries, VS Code extension, and release notes for the [Adder](https://adder.run) Commodore 64 programming language.**
 
-[**Website**](https://adder.run) · [**Adder Lab**](https://lab.adder.run) · [**Quickstart**](https://adder.run/quickstart.html) · [**Language Reference**](https://adder.run/reference.html) · [**Latest Release (v0.42.0)**](https://github.com/dylan/adder-releases/releases/latest)
+[**Website**](https://adder.run) · [**Adder Lab**](https://lab.adder.run) · [**Quickstart**](https://adder.run/quickstart.html) · [**Language Reference**](https://adder.run/reference.html) · [**Latest Release (v0.42.1)**](https://github.com/dylan/adder-releases/releases/latest)
 
 ---
 

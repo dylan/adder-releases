@@ -2,6 +2,13 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.42.1 · Lab & Guide v0.26.11 (2026-11-11)
+
+### Fixed
+
+- **Fallbacks for job answers**: Naming a fallback such as `field <- answer ?? blank` and drawing it now compiles; some picture widths stopped the compiler with an internal error.
+- **Small answers stay put**: A one-byte answer from a bound `work` job is no longer lost while the job runs again.
+
 ## Language v0.42.0 · Lab & Guide v0.26.11 (2026-11-11)
 
 ### Changed
