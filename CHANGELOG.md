@@ -2,6 +2,13 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.43.1 · Lab & Guide v0.26.11 (2026-11-12)
+
+### Fixed
+
+- **Bound work fits where hand-driven work fits**: A `work` job bound with `<-` is no longer refused for time when the same job fits if a handler runs it with `job.resume()`.
+- **`changed` offered for job answers**: Typing `when answer.` on a bound `work` answer now suggests `changed`, and hovering it explains it.
+
 ## Language v0.43.0 · Lab & Guide v0.26.11 (2026-11-11)
 
 ### Added
