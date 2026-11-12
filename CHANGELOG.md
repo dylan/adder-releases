@@ -2,6 +2,13 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.44.0 · Lab & Guide v0.26.11 (2026-11-12)
+
+### Changed
+
+- **Progress needs `publish`** (breaking): Reading `answer.progress` from `work` that never says `publish value` is now refused, with a message showing where to add it. Before, it compiled and showed nothing.
+- **Clearer help for a first `work`**: Writing `work name(...)` without a type now explains the `work Type.name(value: Type): Result` form and how to call it.
+
 ## Language v0.43.1 · Lab & Guide v0.26.11 (2026-11-12)
 
 ### Fixed
