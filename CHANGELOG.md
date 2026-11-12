@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.42.3 · Lab & Guide v0.26.11 (2026-11-11)
+
+### Fixed
+
+- **Bound work on structs**: A bound `work` job called on a struct, such as `answer <- view.total()`, compiles again. Version 0.42.0 refused it with a message about `!=`.
+
 ## Language v0.42.2 · Lab & Guide v0.26.11 (2026-11-11)
 
 ### Changed
