@@ -2,6 +2,16 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.43.0 · Lab & Guide v0.26.11 (2026-11-11)
+
+### Added
+
+- **Hand a job several values at once**: Call bound `work` on a struct built in place, as in `answer <- View(x: a, y: b).total()`. The job takes a copy of the values when it starts and runs again when any of them has changed.
+
+### Fixed
+
+- **First mistake reported first**: When two named arguments to a `work` call are both wrong, Adder now reports the one written first.
+
 ## Language v0.42.3 · Lab & Guide v0.26.11 (2026-11-11)
 
 ### Fixed
