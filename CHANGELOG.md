@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.45.1 · Lab & Guide v0.26.11 (2026-11-13)
+
+### Fixed
+
+- **Work inside a `match` case that names its value**: Binding a `work` job inside a case such as `t ->` now compiles. The job starts over whenever that value changes, like everything else in the case.
+
 ## Language v0.45.0 · Lab & Guide v0.26.11 (2026-11-13)
 
 ### Added
