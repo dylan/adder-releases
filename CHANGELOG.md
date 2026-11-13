@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.45.3 · Lab & Guide v0.26.11 (2026-11-13)
+
+### Fixed
+
+- **Loops in `work` stop where you say**: A loop such as `for i in 0..<n` inside `work` now runs `n` times. Before, it always ran to the largest value `n` could hold, which gave wrong answers.
+
 ## Language v0.45.2 · Lab & Guide v0.26.11 (2026-11-13)
 
 ### Fixed
