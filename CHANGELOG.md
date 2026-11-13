@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.45.2 · Lab & Guide v0.26.11 (2026-11-13)
+
+### Fixed
+
+- **Bound jobs take turns**: When several bound `work` jobs share the time left in a frame, each now gets its turn, so one busy job can no longer keep another waiting forever. Answers may arrive on different frames than before, and a tight `.within(frames: n)` may need a larger number when jobs share time.
+
 ## Language v0.45.1 · Lab & Guide v0.26.11 (2026-11-13)
 
 ### Fixed
