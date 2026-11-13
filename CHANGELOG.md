@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.45.0 · Lab & Guide v0.26.11 (2026-11-13)
+
+### Added
+
+- **Work written like a function**: Declare `work name(inputs): Result` and call it as `name(inputs)`, with no type needed in front. Work with no inputs is fine too. The `work Type.name(...)` form stays for work that belongs to a value.
+
 ## Language v0.44.0 · Lab & Guide v0.26.11 (2026-11-12)
 
 ### Changed
