@@ -2,6 +2,17 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.45.4 · Lab & Guide v0.26.11 (2026-11-17)
+
+### Fixed
+
+- **Choose a screen color**: Use an `if` or `match` directly to choose one color for the screen.
+- **Find errors in included files**: Bracket errors point to the included file and its own line numbers.
+- **Keep list labels together**: Formatting keeps comments beside their list items, including nested lists.
+- **Load a different file**: Changing a load's filename or retry counter starts a fresh read.
+- **Keep art on disk**: Matching an enum case no longer keeps a same-named font's pixels in memory.
+- **Name a chosen font**: Select a loaded font through another binding, or load one while showing a fixed font, without compiler errors.
+
 ## Language v0.45.3 · Lab & Guide v0.26.11 (2026-11-13)
 
 ### Fixed
