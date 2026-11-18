@@ -2,6 +2,13 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.47.0 · Lab & Guide v0.26.11 (2026-11-18)
+
+### Added
+
+- **Use region rows directly**: Read and bind a region’s text and color rows with local coordinates, and read its camera through `.scroll.x` and `.scroll.y`.
+- **Fill screen-code rows with short text**: `ScreenCode("READY")` can fill a wider fixed row, with spaces converted through the same font map as the text.
+
 ## Language v0.46.1 · Lab & Guide v0.26.11 (2026-11-18)
 
 ### Improved
