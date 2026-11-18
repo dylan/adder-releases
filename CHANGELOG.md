@@ -2,6 +2,25 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.46.0 · Lab & Guide v0.26.11 (2026-11-17)
+
+### Added
+
+- **Drop stale work**: Add `.latest()` to a bound job, as in `route <- route_to(target).latest()`, to start again with new inputs instead of finishing an out-of-date run. The binding keeps its last finished answer, and if inputs change too fast for any run to finish, runs finish again until they settle.
+- **Build tables with windows**: Constant builders can fill a fixed-width slice at a calculated position, just like writing its cells one by one.
+
+### Improved
+
+- **Lighter status lines**: Full 40-character lines built with `++` and `digits()` need less temporary storage and less work.
+- **Smaller changing rows**: Rows built from current values take less code to show as text or colors.
+- **Smaller blank grids**: Filling a stored grid with a font’s space uses less code, at the cost of more work for the one-time fill.
+- **Smaller grid copies**: Showing rows from a stored grid uses less code, including character conversion with a chosen font. Startup estimates can be higher.
+
+### Fixed
+
+- **Search from a scrolling helper**: Use `find_index` and other list callbacks inside helpers that read a `Scrollable` value without compiler errors.
+- **Recognize a reserved word**: Using a word such as `at` as a parameter name now explains that it is reserved and suggests renaming it.
+
 ## Language v0.45.4 · Lab & Guide v0.26.11 (2026-11-17)
 
 ### Fixed
