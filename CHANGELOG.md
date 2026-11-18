@@ -2,6 +2,16 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.46.1 · Lab & Guide v0.26.11 (2026-11-18)
+
+### Improved
+
+- **Cartridges start sooner**: A Magic Desk or EasyFlash cartridge reaches your program about 1.6 seconds sooner after power-on.
+
+### Fixed
+
+- **Leave a cartridge program**: Pressing RUN/STOP in a program started from a cartridge now restarts the computer into BASIC, showing `READY.`
+
 ## Language v0.46.0 · Lab & Guide v0.26.11 (2026-11-17)
 
 ### Added
