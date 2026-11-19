@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.48.4 · Lab & Guide v0.26.11 (2026-11-19)
+
+### Improved
+
+- **Scroll colors beside a sprite**: A single unexpanded sprite with a fixed Y position can fit beside a scrolling color grid when its early raster binding finishes before drawing begins.
+
 ## Language v0.48.3 · Lab & Guide v0.26.11 (2026-11-19)
 
 ### Improved
