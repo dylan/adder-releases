@@ -2,6 +2,15 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.48.1 · Lab & Guide v0.26.11 (2026-11-18)
+
+### Improved
+
+- **Smaller programs**: Programs leave out start-up code they never use, so an empty program is now 179 bytes instead of 246.
+- **Quicker start**: A program that never checks whether it runs on PAL or NTSC no longer waits up to a frame at start to find out.
+- **Fewer missed speedups**: The compiler no longer turns down a faster version of your program just because it takes a few more cycles once at startup.
+- **Lighter spare-time work**: Each frame of `work` returns to the wait directly, without an extra jump.
+
 ## Language v0.48.0 · Lab & Guide v0.26.11 (2026-11-18)
 
 ### Changed
