@@ -2,6 +2,16 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.48.0 · Lab & Guide v0.26.11 (2026-11-18)
+
+### Changed
+
+- **Catch counts that run out**: Breaking change: Adder refuses a count of a never-ending frame event or beat when nothing can restart it, and suggests `.cycle()` to wrap or `.countdown(from:)` to stay at an end.
+
+### Fixed
+
+- **Clearer frame limits**: When scrolling colors and raster sprites take too long, the error names the video standard and how many cycles the frame is over budget.
+
 ## Language v0.47.0 · Lab & Guide v0.26.11 (2026-11-18)
 
 ### Added
