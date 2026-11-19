@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.49.0 · Lab & Guide v0.26.11 (2026-11-19)
+
+### Changed
+
+- **One row for the screen**: Breaking change: `interrupt(line:)` and `deadline(line:)` now use picture rows, matching sprites and color bands: row 0 is the top of the picture, and negative rows are in the upper border. Existing calls using chip raster lines need 51 subtracted from their `line:` argument; the examples and Guide already use picture rows.
+
 ## Language v0.48.4 · Lab & Guide v0.26.11 (2026-11-19)
 
 ### Improved
