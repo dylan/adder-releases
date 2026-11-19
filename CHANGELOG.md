@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.48.3 · Lab & Guide v0.26.11 (2026-11-19)
+
+### Improved
+
+- **Smaller, quicker programs**: The compiler removes more values that are loaded but never used, so many programs shrink by a few bytes and run a few cycles faster, and programs that work with strings often shrink by about 100 bytes.
+
 ## Language v0.48.2 · Lab & Guide v0.26.11 (2026-11-19)
 
 ### Fixed
