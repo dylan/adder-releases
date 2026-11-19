@@ -2,6 +2,12 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.48.2 · Lab & Guide v0.26.11 (2026-11-19)
+
+### Fixed
+
+- **Keep frame values fast**: Adding work to `when start` no longer pushes frequently used frame values out of fast memory, and the cost report names values that stay in ordinary RAM.
+
 ## Language v0.48.1 · Lab & Guide v0.26.11 (2026-11-18)
 
 ### Improved
