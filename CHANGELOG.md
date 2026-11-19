@@ -2,6 +2,13 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.50.0 · Lab & Guide v0.26.11 (2026-11-19)
+
+### Added
+
+- **Build sprite formations from data**: Use `map`, a bounded loop or a function returning `Sprite` to prepare raster sprite rows with the same interrupt cost as a literal formation; foreground construction still counts toward your frame budget.
+- **Read bindings in callbacks**: A function expression can capture a binding's current ordinary value when it is created, keeping that snapshot for its later synchronous calls.
+
 ## Language v0.49.0 · Lab & Guide v0.26.11 (2026-11-19)
 
 ### Changed
