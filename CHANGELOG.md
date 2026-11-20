@@ -2,6 +2,19 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.51.0 · Lab & Guide v0.26.12 (2026-11-20)
+
+### Added
+
+- **Fonts built from the machine's letters**: `Font(fn(c) -> Glyph)` builds a font one character at a time, and `Font.lowercase[c]` or `Font.uppercase[c]` keeps the machine's own glyph for any character you don't redraw. The program copies those glyphs from the computer at startup or after a load, so its files never carry them.
+- **Look up a font by character**: `font[Char("#")]` gives the glyph that character shows in that font.
+- **Match a character by its quote**: In a `match` on a `Char`, write the character itself as the pattern, as in `"#" -> wall`.
+- **Longer function values**: Inside brackets, a function value can start its body on the line after `->`, so a `match` reads naturally inside a call.
+
+### Improved
+
+- **Art by level**: Its deck fonts keep the machine's letters and redraw only the five map tiles, so the example no longer carries its own alphabet.
+
 ## Language v0.50.2 · Lab & Guide v0.26.12 (2026-11-20)
 
 ### Fixed
