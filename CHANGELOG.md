@@ -2,6 +2,18 @@
 
 Updates to the Adder language, Lab and Guide.
 
+## Language v0.50.2 · Lab & Guide v0.26.12 (2026-11-20)
+
+### Fixed
+
+- **Lighter lists from data**: Mapping a constant list into a fixed list or sprite formation can now take the same space and frame work as writing out the results, while keeping checks and snapshots where needed.
+
+## Language v0.50.1 · Lab & Guide v0.26.12 (2026-11-19)
+
+### Fixed
+
+- **Accurate sprite hits**: Sprites hidden by the upper or lower border no longer report hits against hidden screen graphics.
+
 ## Language v0.50.0 · Lab & Guide v0.26.11 (2026-11-19)
 
 ### Added
